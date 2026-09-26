@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube API & OAuth Disclosure - DailyLift</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; color: #333; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; margin-top: 30px; }
+        p { margin-bottom: 15px; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-size: 14px; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; font-size: 15px; }
+        th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #ddd; vertical-align: top; }
+        th { color: #2c3e50; }
+        ul { margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <h1>YouTube API &amp; OAuth Disclosure</h1>
+    <p><strong>Last updated:</strong> September 26, 2026</p>
+
+    <h2>Introduction</h2>
+    <p>This page discloses how the DailyLift publishing tool uses Google's YouTube Data API and OAuth authentication. It supplements the main <a href="privacy.html">Privacy Policy</a> and exists because Google's OAuth consent screen requires a specific, accurate description of how Google user data is accessed and used.</p>
+
+    <h2>The application</h2>
+    <p>The application is a private, single-user command-line publishing tool operated by the DailyLift owner. It is not offered to third parties and has no other users. Its only function is to upload prepared video files to a YouTube channel and set each video's metadata.</p>
+
+    <h2>Permissions requested</h2>
+    <p>The application requests these OAuth scopes:</p>
+    <ul>
+        <li><code>https://www.googleapis.com/auth/youtube.upload</code></li>
+        <li><code>https://www.googleapis.com/auth/youtube</code></li>
+    </ul>
+    <p>These scopes allow the tool to upload videos and manage video settings on the authorised channel. They grant access to <strong>channel content only</strong> — not to personal account information.</p>
+    <p>The application does <strong>not</strong> request <code>youtube.readonly</code>, YouTube Analytics scopes, Google Analytics, AdSense, or any Gmail or Drive scope.</p>
+
+    <h2>Exact API calls made</h2>
+    <table>
+        <tr><th>Call</th><th>Purpose</th></tr>
+        <tr><td><code>videos.insert</code></td><td>Upload a finished video file to the channel</td></tr>
+        <tr><td><code>videos.update</code></td><td>Set the video's visibility status and scheduled publish time</td></tr>
+        <tr><td><code>thumbnails.set</code></td><td>Set the video's thumbnail image</td></tr>
+        <tr><td><code>channels.list</code></td><td>Read the authorised channel's own name and public statistics, to confirm the correct channel was connected</td></tr>
+    </table>
+    <p>No other YouTube Data API endpoints are called.</p>
+
+    <h2>What the application explicitly does not do</h2>
+    <ul>
+        <li>It does <strong>not</strong> read, store, or process comments, replies, or comment threads.</li>
+        <li>It does <strong>not</strong> read, request, or store viewer analytics, watch time, demographics, or traffic sources.</li>
+        <li>It does <strong>not</strong> read, request, or store subscriber lists, email addresses, or any personal information about viewers.</li>
+        <li>It does <strong>not</strong> read the channel's playlists, drafts, inbox, or saved content.</li>
+        <li>It does <strong>not</strong> delete anything from YouTube. It cannot remove videos, comments, or any other content from the channel.</li>
+        <li>It does <strong>not</strong> transmit any channel or user data to us or to any third party. All requests are sent to Google (<code>googleapis.com</code>) and nowhere else.</li>
+        <li>It does <strong>not</strong> display advertising, serve ads, or share data with advertising networks.</li>
+    </ul>
+
+    <h2>How Google user data is used</h2>
+    <p>Google user data is used for one purpose only: uploading videos to the authorised YouTube channel and setting their metadata so viewers can find and watch them. The data is not used for advertising, profiling, analytics, model training, or any other purpose, and it is not sold or shared.</p>
+
+    <h2>Data storage and retention</h2>
+    <p>Two items are stored, both locally on the single computer running the tool:</p>
+    <ul>
+        <li><strong>An OAuth access token</strong>, which proves the application is authorised. It is kept in a file outside the project directory, is never committed to a code repository, never written to logs, and never transmitted anywhere except Google's servers.</li>
+        <li><strong>The authorised channel's name and public subscriber/video counts</strong>, read via <code>channels.list</code> and printed to the console so the operator can confirm the correct channel. Not transmitted, not shared.</li>
+    </ul>
+    <p>The access token grants authority over a live YouTube channel. Anyone with access to that file can act on the channel until access is revoked. Tokens are not retained beyond their expiry and can be revoked at any time.</p>
+
+    <h2>Revoking access</h2>
+    <p>You can revoke this application's access at any time at <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>. Revocation takes effect immediately and permanently disables the tool.</p>
+
+    <h2>Human review of this disclosure</h2>
+    <p>This document was written to match the actual behaviour of the application's source code. Every API endpoint listed above was verified against the code, and endpoints that are not called are listed under "does not do" so there is no ambiguity about the tool's data footprint.</p>
+
+    <h2>Contact Us</h2>
+    <p>If you have any questions about this disclosure, please contact us at: <a href="mailto:sam@lifestyleflow.dev">sam@lifestyleflow.dev</a></p>
+</body>
+</html>
